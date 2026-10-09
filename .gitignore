@@ -1,0 +1,7 @@
+__pycache__/
+.venv/
+uv.lock
+.pixi/
+pixi.lock
+.pytest_cache/
+.ruff_cache/

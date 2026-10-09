@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tnia-ops"
+version = "0.0.1"
+description = "tnia-python's utilities, as ops"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Brian Northan", email = "bnorthan@gmail.com" }]
+requires-python = ">=3.10"
+# Only what declaring the ops needs. tnia-python and its dependencies live
+# in the op environments, under envs/.
+dependencies = ["opspec", "numpy"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/tnia_ops"]
+
+[dependency-groups]
+dev = ["pytest"]
+
+[tool.uv.sources]
+# The sibling checkout while opspec is unreleased.
+opspec = { path = "../scikit-ops/opspec", editable = true }
