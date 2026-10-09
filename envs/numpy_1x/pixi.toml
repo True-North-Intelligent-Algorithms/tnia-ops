@@ -14,7 +14,7 @@ matplotlib = "*"
 imageio = "*"
 
 [pypi-dependencies]
-tnia-python = ">=0.2.2"
+tnia-python = ">=0.2.3"  # random_circles with float radii
 raster-geometry = "*"  # tnia.simulation.phantoms imports it
 # The runner's worker side, as scikit-ops' own environments have it.
 scikit-ops = { git = "https://github.com/apposed/scikit-ops.git", rev = "00925fea3d92f3c974b7b1ec67d6633307d27bcc" }
