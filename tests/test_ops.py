@@ -21,12 +21,12 @@ OPS = dict(all_ops())
 
 
 def test_there_are_ops():
-    assert len(OPS) == 11
+    assert len(OPS) == 12
 
 
 @pytest.mark.parametrize("name", sorted(OPS))
 def test_each_op_reads_as_a_spec(name):
     spec = OpSpec.from_op(OPS[name])
-    assert spec.env in ("skimage", "cupy")
+    assert spec.env in ("skimage", "cupy", "numpy_1x")
     assert spec.outputs
     assert OpSpec.from_dict(spec.to_dict()).name == spec.name

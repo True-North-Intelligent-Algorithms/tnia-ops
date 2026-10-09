@@ -14,9 +14,10 @@ Each op wraps a tnia-python function and changes nothing about it.
 | `kernels` | `gaussian_psf`, `paraxial_psf` |
 | `morphology` | `fill_holes`, `connect_2d_in_3d` |
 | `segment` | `local_global_threshold`, `find_large_objects` |
-| `simulation` | `random_circles` |
+| `simulation` | `random_circles`, `grid_of_circles` |
 
-Environments are in `envs/<id>/pixi.toml`: `skimage` (CPU) and `cupy` (GPU).
+Environments are in `envs/<id>/pixi.toml`: `skimage` (CPU), `cupy` (GPU), and
+`numpy_1x`, for the simulation ops, whose raster-geometry needs NumPy 1.
 
 Some names are the same as scikit-ops' on purpose -- ops called
 `richardson_lucy` and `connect_2d_in_3d`, environments called `skimage` and
