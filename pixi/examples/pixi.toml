@@ -1,0 +1,29 @@
+[workspace]
+# The host tnia-ops' examples run in: Jupyter, and scikit-ops' runner. The
+# ops themselves run in ../../envs/, which the runner builds when first
+# needed; their dependencies never belong here. The uv equivalent is the
+# `examples` dependency group in ../../pyproject.toml.
+name = "tnia-ops-examples"
+authors = ["bnorthan <bnorthan@gmail.com>"]
+channels = ["conda-forge"]
+platforms = ["linux-64", "win-64", "osx-arm64"]
+version = "0.1.0"
+
+[dependencies]
+python = "3.12.*"
+pip = "*"
+# The kernel, named explicitly: VS Code starts it itself and never runs lab.
+ipykernel = "*"
+jupyterlab = "*"
+matplotlib = "*"
+
+[pypi-dependencies]
+# Both editable, from the sibling checkouts; opspec comes from scikit-ops'.
+scikit-ops = { path = "../../../scikit-ops", editable = true }
+tnia-ops = { path = "../..", editable = true }
+
+[tasks]
+# Makes this environment selectable as a kernel in Jupyter and VS Code.
+register-kernel = """python -m ipykernel install --user \
+    --name=tnia-ops-examples --display-name 'tnia-ops (examples)'"""
+lab = "jupyter lab ../../examples"

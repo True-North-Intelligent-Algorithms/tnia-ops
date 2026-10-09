@@ -19,7 +19,14 @@ packages = ["src/tnia_ops"]
 
 [dependency-groups]
 dev = ["pytest"]
+# What examples/ needs: a runner (scikit-ops'), and Jupyter.
+examples = ["scikit-ops", "ipykernel", "matplotlib", "nbconvert"]
 
 [tool.uv.sources]
 # The sibling checkout while opspec is unreleased.
 opspec = { path = "../scikit-ops/opspec", editable = true }
+scikit-ops = { path = "../scikit-ops", editable = true }
+
+[tool.uv]
+# A bare `uv sync` keeps the examples' kernel instead of stripping it.
+default-groups = ["dev", "examples"]

@@ -27,3 +27,26 @@ Some names are the same as scikit-ops' on purpose -- ops called
 uv sync
 uv run pytest      # every op reads as a valid spec; no environment needed
 ```
+
+## Examples
+
+tnia-ops has no runner of its own. `examples/hybrid.ipynb` runs it with
+scikit-ops' runner, in one pipeline with a scikit-ops op, and shows which
+environment each op runs in and where it is built.
+
+The notebook's kernel is *tnia-ops (examples)*: Jupyter, scikit-ops' runner,
+and tnia-ops, both editable from sibling checkouts. With pixi:
+
+```sh
+cd pixi/examples
+pixi install
+pixi run register-kernel     # once; then pick the kernel in Jupyter or VS Code
+pixi run lab
+```
+
+Or with uv, from the top folder (the `examples` group has the same things):
+
+```sh
+uv sync
+uv run python -m ipykernel install --user --name=tnia-ops-examples --display-name 'tnia-ops (examples)'
+```
