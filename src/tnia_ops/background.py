@@ -3,7 +3,8 @@
 from typing import Annotated, NamedTuple
 
 import numpy as np
-from opspec.op import op
+from opspec.op import Axes, op
+from opspec.runtime import cancel_requested, progress
 from opspec.types import ImageOf
 
 
@@ -16,24 +17,34 @@ class Corrected(NamedTuple):
 
 @op(env="skimage")
 def rolling_ball(
-    image: ImageOf[np.ndarray],
+    image: Annotated[ImageOf[np.ndarray], Axes("z?", "y", "x")],
     radius: Annotated[float, {"min": 1.0, "max": 500.0}] = 50.0,
     smooth: bool = True,
     downsample: Annotated[int, {"min": 1, "max": 16}] = 1,
 ) -> Corrected:
     """Subtract a rolling-ball background, as ImageJ's Subtract Background.
 
+    A stack is done plane by plane, reporting each, and stops between planes
+    if asked to.
+
     Args:
-        image: The image. Integer (uint8, uint16) if smooth is on.
+        image: A plane or a stack. Integer (uint8, uint16) if smooth is on.
         radius: The ball's radius, in pixels.
         smooth: Whether to smooth before estimating the background.
         downsample: Estimate the background at 1/n size, for speed.
     """
     from tnia.background.rolling_ball import rolling_ball_ds
 
-    background = rolling_ball_ds(
-        image, radius, perform_mean=smooth, downsample=downsample
-    )
+    planes = image if image.ndim == 3 else image[np.newaxis]
+    backgrounds = []
+    for i, plane in enumerate(planes):
+        if cancel_requested():
+            raise RuntimeError(f"Cancelled after {i} of {len(planes)} planes")
+        progress(f"Plane {i + 1} of {len(planes)}", i, len(planes))
+        backgrounds.append(
+            rolling_ball_ds(plane, radius, perform_mean=smooth, downsample=downsample)
+        )
+    background = np.stack(backgrounds).reshape(image.shape)
     return Corrected(image - background, background)
 
 

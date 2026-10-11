@@ -12,7 +12,7 @@ authors = [{ name = "Brian Northan", email = "bnorthan@gmail.com" }]
 requires-python = ">=3.10"
 # Only what declaring the ops needs. tnia-python and its dependencies live
 # in the op environments, under envs/.
-dependencies = ["opspec", "numpy"]
+dependencies = ["opspec", "ophelper", "numpy"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/tnia_ops"]
@@ -25,6 +25,7 @@ examples = ["scikit-ops", "ipykernel", "matplotlib", "nbconvert"]
 [tool.uv.sources]
 # The sibling checkout while opspec is unreleased.
 opspec = { path = "../scikit-ops/opspec", editable = true }
+ophelper = { path = "../scikit-ops/ophelper", editable = true }
 scikit-ops = { path = "../scikit-ops", editable = true }
 
 [tool.uv]

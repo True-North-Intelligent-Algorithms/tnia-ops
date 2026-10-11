@@ -4,7 +4,8 @@ from typing import Annotated
 
 import numpy as np
 from opspec.op import op
-from opspec.types import ImageOf, LabelsOf
+from opspec.runtime import progress, run
+from opspec.types import BoxesOf, ImageOf, LabelsOf
 
 
 @op(env="skimage")
@@ -42,3 +43,43 @@ def find_large_objects(
     from tnia.segmentation.filterobjects import find_large_objects as tnia_find_large
 
     return tnia_find_large(image, labels, min_area)
+
+
+@op(env="skimage")
+def object_boxes(labels: LabelsOf[np.ndarray]) -> BoxesOf[np.ndarray]:
+    """A bounding box around each labelled object.
+
+    Args:
+        labels: The labels.
+    """
+    from ophelper.boxes import from_labels
+
+    return from_labels(labels)
+
+
+@op  # no environment: runs where it's called; each step runs in its own
+def threshold_and_fill(
+    image: ImageOf[np.ndarray],
+    window: Annotated[int, {"min": 3, "max": 1001}] = 51,
+    global_threshold: float = 0.0,
+    max_hole_area: Annotated[int, {"min": 1, "max": 100000}] = 500,
+) -> LabelsOf[np.ndarray]:
+    """Threshold, then fill holes: two ops in a row.
+
+    Args:
+        image: The image.
+        window: Local window size; odd.
+        global_threshold: Everything kept is above this.
+        max_hole_area: Bigger holes stay open.
+    """
+    from tnia_ops.morphology import fill_holes
+
+    progress("Thresholding")
+    labels = run(
+        local_global_threshold,
+        image=image,
+        window=window,
+        global_threshold=global_threshold,
+    )
+    progress("Filling holes")
+    return run(fill_holes, labels=labels, max_hole_area=max_hole_area)
