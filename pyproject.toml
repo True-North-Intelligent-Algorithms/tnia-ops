@@ -17,6 +17,12 @@ dependencies = ["opspec", "ophelper", "numpy"]
 [tool.hatch.build.targets.wheel]
 packages = ["src/tnia_ops"]
 
+# Each op's environment is built from envs/<env-id>/pixi.toml, so a wheel
+# carries them, inside the package: site-packages/tnia_ops/envs/, which the
+# runner finds by looking beside the op's files.
+[tool.hatch.build.targets.wheel.force-include]
+"envs" = "tnia_ops/envs"
+
 [dependency-groups]
 dev = ["pytest"]
 # What examples/ needs: a runner (oprunner), scikit-ops' ops, and Jupyter.
