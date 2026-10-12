@@ -44,6 +44,51 @@ def random_circles(
 
 
 @op(env="numpy_1x")
+def random_spheres(
+    depth: Annotated[int, {"min": 8, "max": 2048}] = 64,
+    height: Annotated[int, {"min": 8, "max": 8192}] = 256,
+    width: Annotated[int, {"min": 8, "max": 8192}] = 256,
+    count: Annotated[int, {"min": 1, "max": 10000}] = 30,
+    min_radius: Annotated[int, {"min": 1, "max": 500}] = 5,
+    max_radius: Annotated[int, {"min": 1, "max": 500}] = 15,
+    min_intensity: float = 100.0,
+    max_intensity: float = 1000.0,
+    seed: int = 1,
+) -> ImageOf[np.ndarray]:
+    """Random filled spheres in a volume, for testing 3D segmentation.
+
+    A sphere near the edge is cut off by it.
+
+    Args:
+        depth: Number of planes.
+        height: Plane height.
+        width: Plane width.
+        count: How many spheres.
+        min_radius: Smallest radius.
+        max_radius: Largest radius.
+        min_intensity: Dimmest sphere.
+        max_intensity: Brightest sphere.
+        seed: Same seed, same volume.
+    """
+    import random
+
+    from tnia.simulation.phantoms import random_sphere_phantom
+
+    # random_sphere_phantom draws from the random module and takes no seed.
+    random.seed(seed)
+    return random_sphere_phantom(
+        width,
+        height,
+        depth,
+        count,
+        min_radius,
+        max_radius,
+        min_intensity=int(min_intensity),
+        max_intensity=int(max_intensity),
+    )
+
+
+@op(env="numpy_1x")
 def grid_of_circles(
     height: Annotated[int, {"min": 8, "max": 8192}] = 256,
     width: Annotated[int, {"min": 8, "max": 8192}] = 256,

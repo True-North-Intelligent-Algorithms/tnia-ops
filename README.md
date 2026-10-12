@@ -14,7 +14,7 @@ Each op wraps a tnia-python function and changes nothing about it.
 | `kernels` | `gaussian_psf`, `paraxial_psf` |
 | `morphology` | `fill_holes`, `connect_2d_in_3d` |
 | `segment` | `local_global_threshold`, `find_large_objects`, `object_boxes`, `threshold_and_fill` (a workflow) |
-| `simulation` | `random_circles`, `grid_of_circles` |
+| `simulation` | `random_circles`, `random_spheres`, `grid_of_circles` |
 
 Environments are in `envs/<id>/pixi.toml`: `skimage` (CPU), `cupy` (GPU), and
 `numpy_1x`, for the simulation ops, whose raster-geometry needs NumPy 1.
