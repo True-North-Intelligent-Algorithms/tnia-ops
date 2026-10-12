@@ -3,7 +3,7 @@
 # ops themselves run in ../../envs/, which the runner builds when first
 # needed; their dependencies never belong here. The uv equivalent is the
 # `examples` dependency group in ../../pyproject.toml.
-name = "tnia-ops-examples"
+name = "tnia-ops-editable"
 authors = ["bnorthan <bnorthan@gmail.com>"]
 channels = ["conda-forge"]
 platforms = ["linux-64", "win-64", "osx-arm64"]
@@ -18,12 +18,17 @@ jupyterlab = "*"
 matplotlib = "*"
 
 [pypi-dependencies]
-# Both editable, from the sibling checkouts; opspec comes from scikit-ops'.
-scikit-ops = { path = "../../../scikit-ops", editable = true }
+# All editable, from the sibling checkouts. opspec, ophelper and oprunner are
+# listed even though scikit-ops depends on them: as plain dependencies pixi
+# installs them from the checkout as a one-off copy, which goes stale.
 tnia-ops = { path = "../..", editable = true }
+scikit-ops = { path = "../../../scikit-ops", editable = true }
+opspec = { path = "../../../scikit-ops/opspec", editable = true }
+ophelper = { path = "../../../scikit-ops/ophelper", editable = true }
+oprunner = { path = "../../../scikit-ops/oprunner", editable = true }
 
 [tasks]
 # Makes this environment selectable as a kernel in Jupyter and VS Code.
 register-kernel = """python -m ipykernel install --user \
-    --name=tnia-ops-examples --display-name 'tnia-ops (examples)'"""
+    --name=tnia-ops-editable --display-name 'tnia-ops (editable)'"""
 lab = "jupyter lab ../../examples"

@@ -34,11 +34,11 @@ tnia-ops has no runner of its own. `examples/hybrid.ipynb` runs it with
 scikit-ops' runner, in one pipeline with a scikit-ops op, and shows which
 environment each op runs in and where it is built.
 
-The notebook's kernel is *tnia-ops (examples)*: Jupyter, scikit-ops' runner,
+The notebook's kernel is *tnia-ops (editable)*: Jupyter, scikit-ops' runner,
 and tnia-ops, both editable from sibling checkouts. With pixi:
 
 ```sh
-cd pixi/examples
+cd pixi/tnia-ops-editable
 pixi install
 pixi run register-kernel     # once; then pick the kernel in Jupyter or VS Code
 pixi run lab
