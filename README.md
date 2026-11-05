@@ -15,9 +15,23 @@ Each op wraps a tnia-python function and changes nothing about it.
 | `morphology` | `fill_holes`, `connect_2d_in_3d` |
 | `segment` | `local_global_threshold`, `find_large_objects`, `object_boxes`, `threshold_and_fill` (a workflow) |
 | `simulation` | `random_circles`, `random_spheres`, `grid_of_circles` |
+| `photo` | `relight`, `color_correct`, `unsharp`, `denoise`, `sharpness`, `subject_crop` |
+| `restore` | `motion_deblur`, `upscale` (pretrained networks, via spandrel) |
+| `detect` | `detect_people` (YOLO, person class) |
+| `ocr` | `read_numbers` (EasyOCR, race bibs) |
+
+Namespaces are laid out like scikit-ops': one scikit-ops has as a folder
+(`deconvolve`, `detect`, `kernels`, `segment`) is a folder here too, one file
+per op, even if there is only one; the rest are single files. Either way, ops
+are imported from the namespace: `from tnia_ops.deconvolve import richardson_lucy`.
 
 Environments are in `envs/<id>/pixi.toml`: `skimage` (CPU), `cupy` (GPU), and
-`numpy_1x`, for the simulation ops, whose raster-geometry needs NumPy 1.
+`numpy_1x`, for the simulation ops, whose raster-geometry needs NumPy 1, and
+`photo` (OpenCV and PyTorch) for the photo, restore, detect and ocr ops.
+
+The photo ops are not wrappers of tnia-python: they came from a race-photo
+app, which calls them directly. Model weights are parameters (`weights: Path`),
+never downloaded by the op.
 
 Some names are the same as scikit-ops' on purpose -- ops called
 `richardson_lucy` and `connect_2d_in_3d`, environments called `skimage` and
