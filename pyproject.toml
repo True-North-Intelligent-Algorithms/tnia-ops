@@ -4,15 +4,15 @@ build-backend = "hatchling.build"
 
 [project]
 name = "tnia-ops"
-version = "0.0.1"
+version = "0.1.0.dev0"
 description = "tnia-python's utilities, as ops"
 readme = "README.md"
-license = { text = "MIT" }
+license = "BSD-2-Clause"
 authors = [{ name = "Brian Northan", email = "bnorthan@gmail.com" }]
 requires-python = ">=3.10"
 # Only what declaring the ops needs. tnia-python and its dependencies live
 # in the op environments, under envs/.
-dependencies = ["opspec", "ophelper", "numpy"]
+dependencies = ["opspec>=0.1.0.dev0", "ophelper>=0.1.0.dev0", "numpy"]
 
 # Says "the package tnia_ops is a collection of ops, called tnia-ops", so a
 # front end lists it without being told: it lists every installed package in
