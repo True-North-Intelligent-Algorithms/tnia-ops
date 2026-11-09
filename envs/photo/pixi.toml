@@ -25,8 +25,10 @@ torchvision = "*"
 easyocr = "*"
 spandrel = "*"
 spandrel_extra_arches = "*"  # Restormer
-# The runner's worker side, as scikit-ops' own environments have it.
-scikit-ops = { git = "https://github.com/apposed/scikit-ops.git", rev = "00925fea3d92f3c974b7b1ec67d6633307d27bcc" }
+# The collection itself, at this release's version, and the runner's worker
+# side. Bump the tnia-ops pin with pyproject.toml's version.
+tnia-ops = "==0.1.0.dev0"
+oprunner = ">=0.1.0.dev0"
 
 [target.linux-64.dependencies]
 pytorch-gpu = "*"
