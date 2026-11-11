@@ -25,6 +25,8 @@ torchvision = "*"
 easyocr = "*"
 spandrel = "*"
 spandrel_extra_arches = "*"  # Restormer
+transformers = "*"  # OWLv2, for detect_bibs
+rapidocr-onnxruntime = "*"  # read_bibs
 # The collection itself, at this release's version, and the runner's worker
 # side. Bump the tnia-ops pin with pyproject.toml's version.
 tnia-ops = "==0.1.0.dev0"

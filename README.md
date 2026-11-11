@@ -17,8 +17,8 @@ Each op wraps a tnia-python function and changes nothing about it.
 | `simulation` | `random_circles`, `random_spheres`, `grid_of_circles` |
 | `photo` | `relight`, `color_correct`, `unsharp`, `denoise`, `sharpness`, `subject_crop` |
 | `restore` | `motion_deblur`, `upscale` (pretrained networks, via spandrel) |
-| `detect` | `detect_people` (YOLO, person class) |
-| `ocr` | `read_numbers` (EasyOCR, race bibs) |
+| `detect` | `detect_people` (YOLO, person class), `detect_bibs` (OWLv2, zero-shot), `detect_poses` (YOLO pose keypoints) |
+| `ocr` | `read_numbers` (EasyOCR on chests), `read_bibs` (RapidOCR on given boxes) |
 
 Namespaces are laid out like scikit-ops': one scikit-ops has as a folder
 (`deconvolve`, `detect`, `kernels`, `segment`) is a folder here too, one file
@@ -31,7 +31,8 @@ Environments are in `envs/<id>/pixi.toml`: `skimage` (CPU), `cupy` (GPU), and
 
 The photo ops are not wrappers of tnia-python: they came from a race-photo
 app, which calls them directly. Model weights are parameters (`weights: Path`),
-never downloaded by the op.
+never downloaded by the op -- except `detect_bibs`, whose `model` is a Hugging
+Face id that transformers downloads and caches on first use.
 
 Some names are the same as scikit-ops' on purpose -- ops called
 `richardson_lucy` and `connect_2d_in_3d`, environments called `skimage` and

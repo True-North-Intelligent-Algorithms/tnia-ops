@@ -23,7 +23,7 @@ OPS = dict(all_ops())
 
 
 def test_there_are_ops():
-    assert len(OPS) == 25
+    assert len(OPS) == 28
 
 
 @pytest.mark.parametrize("name", sorted(OPS))
